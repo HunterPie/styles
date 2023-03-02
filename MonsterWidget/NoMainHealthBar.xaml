@@ -1,0 +1,359 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                    mc:Ignorable="d"
+                    xmlns:overlay="clr-namespace:HunterPie.UI.Overlay.Controls;assembly=HunterPie.UI"
+                    xmlns:converters="clr-namespace:HunterPie.UI.Architecture.Converters;assembly=HunterPie.UI"
+                    xmlns:assets="clr-namespace:HunterPie.UI.Architecture.Assets;assembly=HunterPie.UI"
+                    xmlns:local="clr-namespace:HunterPie.UI.Overlay.Widgets.Monster.Views;assembly=HunterPie.UI"
+                    xmlns:viewmodels="clr-namespace:HunterPie.UI.Overlay.Widgets.Monster.ViewModels;assembly=HunterPie.UI"
+                    xmlns:animations="clr-namespace:HunterPie.UI.Architecture.Animation;assembly=HunterPie.UI"
+                    xmlns:view="clr-namespace:HunterPie.UI.Overlay.Widgets.Monster.Views;assembly=HunterPie.UI"
+                    xmlns:ocomponents="clr-namespace:HunterPie.UI.Overlay.Components;assembly=HunterPie.UI"
+                    xmlns:loading="clr-namespace:HunterPie.UI.Controls.Loading;assembly=HunterPie.UI"
+                    xmlns:selectors="clr-namespace:HunterPie.UI.Architecture.Selectors;assembly=HunterPie.UI"
+                    xmlns:genums="clr-namespace:HunterPie.Core.Game.Enums;assembly=HunterPie.Core"
+                    xmlns:enums="clr-namespace:HunterPie.Core.Client.Configuration.Enums;assembly=HunterPie.Core">
+    <converters:CrownToIconConverter x:Key="CrownToIconConverter" />
+    <converters:CrownToVisibilityConverter x:Key="CrownToVisibilityConverter" />
+    <converters:OrientationConverter x:Key="OrientationConverter" />
+    <converters:DoubleToDecimalConverter x:Key="DoubleToDecimalConverter" />
+    <converters:MonsterEmToIconConverter x:Key="MonsterEmToIconConverter" />
+    <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+    <converters:FloatFloorConverter x:Key="FloatFloorConverter" />
+    <converters:TargetTypeToVisibility x:Key="TargetTypeToVisibility" />
+    <converters:IsValidPartConverter x:Key="IsValidPartConverter" />
+    <converters:PercentageToLeftMargingDistanceConverter x:Key="PercentageToLeftMargingDistanceConverter" />
+    <converters:BindingMultiplierConverter x:Key="BindingMultiplierConverter" />
+    <converters:DynamicMonsterBarSizeConverter x:Key="DynamicMonsterBarSizeConverter" />
+    <enums:Orientation x:Key="OHorizontal">Horizontal</enums:Orientation>
+    <enums:Orientation x:Key="OVertical">Vertical</enums:Orientation>
+    <LinearGradientBrush x:Key="MonsterHealthEnraged"
+                         EndPoint="1,1"
+                         StartPoint="0,1">
+        <GradientStop Color="#d42c2c" />
+        <GradientStop Color="#e63f29"
+                      Offset="1" />
+    </LinearGradientBrush>
+    <SolidColorBrush x:Key="MonsterHealthEnragedDelayed"
+                     Color="#FFEB6C5B" />
+    <Style x:Key="{x:Type local:BossMonsterAilmentView}"
+           TargetType="{x:Type local:BossMonsterAilmentView}">
+        <Style.Triggers>
+            <MultiDataTrigger>
+                <MultiDataTrigger.Conditions>
+                    <Condition Binding="{Binding Widget.Settings.AutomaticallyHideAilments.Value, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ocomponents:WidgetBase}}}"
+                               Value="True" />
+                    <Condition Binding="{Binding DataContext.IsActive, RelativeSource={RelativeSource Self}}"
+                               Value="False" />
+                </MultiDataTrigger.Conditions>
+                <MultiDataTrigger.Setters>
+                    <Setter Property="Visibility"
+                            Value="Collapsed" />
+                </MultiDataTrigger.Setters>
+            </MultiDataTrigger>
+            <MultiDataTrigger>
+                <MultiDataTrigger.Conditions>
+                    <Condition Binding="{Binding Widget.Settings.AutomaticallyHideAilments.Value, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ocomponents:WidgetBase}}}"
+                               Value="True" />
+                    <Condition Binding="{Binding DataContext.IsActive, RelativeSource={RelativeSource Self}}"
+                               Value="True" />
+                </MultiDataTrigger.Conditions>
+                <MultiDataTrigger.Setters>
+                    <Setter Property="Visibility"
+                            Value="Visible" />
+                </MultiDataTrigger.Setters>
+            </MultiDataTrigger>
+            <MultiDataTrigger>
+                <MultiDataTrigger.Conditions>
+                    <Condition Binding="{Binding DataContext.IsActive, RelativeSource={RelativeSource Self}}"
+                               Value="True" />
+                </MultiDataTrigger.Conditions>
+                <MultiDataTrigger.Setters>
+                    <Setter Property="Visibility"
+                            Value="Visible" />
+                </MultiDataTrigger.Setters>
+            </MultiDataTrigger>
+        </Style.Triggers>
+    </Style>
+    <Style x:Key="BEHAVIOR_PART_VIEW"
+           TargetType="UserControl">
+        <Style.Triggers>
+            <MultiDataTrigger>
+                <MultiDataTrigger.Conditions>
+                    <Condition Binding="{Binding Widget.Settings.AutoHideParts.Value, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ocomponents:WidgetBase}}}"
+                               Value="True" />
+                    <Condition Binding="{Binding DataContext.IsActive, RelativeSource={RelativeSource Self}}"
+                               Value="False" />
+                </MultiDataTrigger.Conditions>
+                <MultiDataTrigger.Setters>
+                    <Setter Property="Visibility"
+                            Value="Collapsed" />
+                </MultiDataTrigger.Setters>
+            </MultiDataTrigger>
+            <MultiDataTrigger>
+                <MultiDataTrigger.Conditions>
+                    <Condition Binding="{Binding Widget.Settings.AutoHideParts.Value, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ocomponents:WidgetBase}}}"
+                               Value="True" />
+                    <Condition Binding="{Binding DataContext.IsActive, RelativeSource={RelativeSource Self}}"
+                               Value="True" />
+                </MultiDataTrigger.Conditions>
+                <MultiDataTrigger.Setters>
+                    <Setter Property="Visibility"
+                            Value="Visible" />
+                </MultiDataTrigger.Setters>
+            </MultiDataTrigger>
+            <MultiDataTrigger>
+                <MultiDataTrigger.Conditions>
+                    <Condition Binding="{Binding DataContext.IsActive, RelativeSource={RelativeSource Self}}"
+                               Value="True" />
+                </MultiDataTrigger.Conditions>
+                <MultiDataTrigger.Setters>
+                    <Setter Property="Visibility"
+                            Value="Visible" />
+                </MultiDataTrigger.Setters>
+            </MultiDataTrigger>
+            <MultiDataTrigger>
+                <MultiDataTrigger.Conditions>
+                    <Condition Binding="{Binding Widget.Settings.HideUnknownParts.Value, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ocomponents:WidgetBase}}}"
+                               Value="True" />
+                    <Condition Binding="{Binding DataContext.IsKnownPart, RelativeSource={RelativeSource Self}}"
+                               Value="False" />
+                </MultiDataTrigger.Conditions>
+                <MultiDataTrigger.Setters>
+                    <Setter Property="Visibility"
+                            Value="Collapsed" />
+                </MultiDataTrigger.Setters>
+            </MultiDataTrigger>
+        </Style.Triggers>
+    </Style>
+    <DataTemplate x:Key="TEMPLATE_PART_DEFAULT">
+        <view:BossMonsterPartView Width="200"
+                                  Style="{StaticResource BEHAVIOR_PART_VIEW}" />
+    </DataTemplate>
+    <DataTemplate x:Key="TEMPLATE_PART_SEVERABLE">
+        <view:BossMonsterSeverablePartView Width="200"
+                                           Style="{StaticResource BEHAVIOR_PART_VIEW}" />
+    </DataTemplate>
+    <DataTemplate x:Key="TEMPLATE_PART_BREAKABLE">
+        <view:BossMonsterBreakablePartView Width="200"
+                                           Style="{StaticResource BEHAVIOR_PART_VIEW}" />
+    </DataTemplate>
+    <DataTemplate x:Key="TEMPLATE_PART_QURIO">
+        <view:BossMonsterQurioPartView Width="200"
+                                       Style="{StaticResource BEHAVIOR_PART_VIEW}" />
+    </DataTemplate>
+    <converters:MonsterPartTypeToDataTemplateConverter x:Key="MonsterPartTypeToDataTemplateConverter"
+                                                       DefaultTemplate="{StaticResource TEMPLATE_PART_DEFAULT}"
+                                                       SeverableTemplate="{StaticResource TEMPLATE_PART_SEVERABLE}"
+                                                       BreakableTemplate="{StaticResource TEMPLATE_PART_BREAKABLE}"
+                                                       QurioTemplate="{StaticResource TEMPLATE_PART_QURIO}" />
+    <Style x:Key="STYLE_MONSTERS_WIDGET"
+           TargetType="{x:Type local:MonstersView}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate>
+                    <ItemsControl ItemsSource="{Binding Monsters, Mode=OneWay}">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <Grid x:Name="PART_Host">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="Auto" />
+                                    </Grid.ColumnDefinitions>
+                                    <Grid Margin="10,10,10,9"
+                                          VerticalAlignment="Top">
+                                        <StackPanel Orientation="Horizontal"
+                                                    VerticalAlignment="Top"
+                                                    HorizontalAlignment="Left"
+                                                    Margin="10,0,0,0">
+                                            <Image Source="{Binding Crown, Mode=OneWay, Converter={StaticResource CrownToIconConverter}}"
+                                                   d:Source="{StaticResource CROWN_MINI}"
+                                                   Height="15"
+                                                   d:Visibility="Visible"
+                                                   Visibility="{Binding Crown, Converter={StaticResource CrownToVisibilityConverter}}"
+                                                   Width="{Binding Height, ElementName=PART_Host}"
+                                                   Margin="0,0,5,0"
+                                                   VerticalAlignment="Center" />
+                                            <TextBlock Text="{Binding Name, Mode=OneWay}"
+                                                       d:Text="Dodogama"
+                                                       VerticalAlignment="Center"
+                                                       HorizontalAlignment="Left"
+                                                       Foreground="{StaticResource HUNTERPIE_FOREGROUND_PRIMARY}"
+                                                       FontFamily="{StaticResource HUNTERPIE_DEFAULT_FONT}"
+                                                       FontSize="15">
+                                                <TextBlock.Effect>
+                                                    <DropShadowEffect Color="Black"
+                                                                      BlurRadius="4"
+                                                                      ShadowDepth="0" />
+                                                </TextBlock.Effect>
+                                            </TextBlock>
+                                            <!-- Weaknesses -->
+                                            <ItemsControl ItemsSource="{Binding Weaknesses, Mode=OneWay}"
+                                                          d:DataContext="{x:Static viewmodels:DesignModeViewModels.MockBossMonsterViewModel}"
+                                                          VerticalAlignment="Top"
+                                                          HorizontalAlignment="Left"
+                                                          Margin="5,0,0,0">
+                                                <ItemsControl.ItemTemplate>
+                                                    <DataTemplate DataType="{x:Type genums:Element}">
+                                                        <local:BossMonsterWeaknessView Width="20"
+                                                                                       Height="{Binding ActualWidth, RelativeSource={RelativeSource Self}}"
+                                                                                       Margin="2,0,0,0" />
+                                                    </DataTemplate>
+                                                </ItemsControl.ItemTemplate>
+                                                <ItemsControl.ItemsPanel>
+                                                    <ItemsPanelTemplate>
+                                                        <StackPanel Orientation="Horizontal" />
+                                                    </ItemsPanelTemplate>
+                                                </ItemsControl.ItemsPanel>
+                                            </ItemsControl>
+                                        </StackPanel>
+                                    </Grid>
+                                    <!-- Capture indicator -->
+                                    <Image Source="{StaticResource ICON_TRAP}"
+                                           Height="25"
+                                           Width="25"
+                                           VerticalAlignment="Top"
+                                           HorizontalAlignment="Right"
+                                           Margin="0,2,30,0"
+                                           Visibility="{Binding IsCapturable, Mode=OneWay, Converter={StaticResource BooleanToVisibilityConverter}}" />
+                                    <!-- Weaknesses -->
+                                    <StackPanel Grid.Row="1"
+                                                Orientation="Vertical"
+                                                x:Name="PART_Bottom"
+                                                Margin="0,30,0,0"
+                                                Visibility="{Binding TargetType, Converter={StaticResource TargetTypeToVisibility}}">
+                                        <!-- Ailments -->
+                                        <ItemsControl ItemsSource="{Binding Ailments, Mode=OneWay, NotifyOnSourceUpdated=True}">
+                                            <ItemsControl.ItemsPanel>
+                                                <ItemsPanelTemplate>
+                                                    <WrapPanel Orientation="Horizontal"
+                                                               Visibility="{Binding Widget.Settings.EnableAilments.Value, Mode=OneWay, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ocomponents:WidgetBase}}, Converter={StaticResource BooleanToVisibilityConverter}}" />
+                                                </ItemsPanelTemplate>
+                                            </ItemsControl.ItemsPanel>
+                                            <ItemsControl.ItemTemplate>
+                                                <DataTemplate DataType="{x:Type viewmodels:MonsterAilmentViewModel}">
+                                                    <view:BossMonsterAilmentView Width="80" />
+                                                </DataTemplate>
+                                            </ItemsControl.ItemTemplate>
+                                        </ItemsControl>
+                                        <!-- Parts -->
+                                        <ItemsControl ItemsSource="{Binding Parts, Mode=OneWay, NotifyOnSourceUpdated=True}">
+                                            <ItemsControl.ItemsPanel>
+                                                <ItemsPanelTemplate>
+                                                    <WrapPanel Orientation="Horizontal"
+                                                               Visibility="{Binding Widget.Settings.EnableParts.Value, Mode=OneWay, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ocomponents:WidgetBase}}, Converter={StaticResource BooleanToVisibilityConverter}}" />
+                                                </ItemsPanelTemplate>
+                                            </ItemsControl.ItemsPanel>
+                                            <ItemsControl.ItemTemplate>
+                                                <DataTemplate>
+                                                    <ContentPresenter ContentTemplate="{Binding Type, Converter={StaticResource MonsterPartTypeToDataTemplateConverter}}" />
+                                                </DataTemplate>
+                                            </ItemsControl.ItemTemplate>
+                                        </ItemsControl>
+                                    </StackPanel>
+                                    <!-- Monster component style -->
+                                    <Grid.Style>
+                                        <Style TargetType="Grid">
+                                            <Setter Property="Visibility"
+                                                    Value="Collapsed" />
+                                            <Style.Triggers>
+                                                <MultiDataTrigger>
+                                                    <MultiDataTrigger.Conditions>
+                                                        <Condition Binding="{Binding IsTarget}"
+                                                                   Value="True" />
+                                                    </MultiDataTrigger.Conditions>
+                                                    <MultiDataTrigger.Setters>
+                                                        <Setter Property="Visibility"
+                                                                Value="Visible" />
+                                                    </MultiDataTrigger.Setters>
+                                                </MultiDataTrigger>
+                                                <DataTrigger Binding="{Binding IsAlive}"
+                                                             Value="False">
+                                                    <Setter Property="Visibility"
+                                                            Value="Collapsed" />
+                                                </DataTrigger>
+                                                <!-- Dynamic size setting -->
+                                                <DataTrigger Binding="{Binding Settings.DynamicResize.Value, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}"
+                                                             Value="True">
+                                                    <DataTrigger.Setters>
+                                                        <Setter Property="Width">
+                                                            <Setter.Value>
+                                                                <MultiBinding Converter="{StaticResource DynamicMonsterBarSizeConverter}">
+                                                                    <Binding Path="Settings.MinWidth.Current"
+                                                                             RelativeSource="{RelativeSource AncestorType={x:Type UserControl}}" />
+                                                                    <Binding Path="DataContext.VisibleMonsters"
+                                                                             RelativeSource="{RelativeSource AncestorType={x:Type UserControl}}" />
+                                                                </MultiBinding>
+                                                            </Setter.Value>
+                                                        </Setter>
+                                                    </DataTrigger.Setters>
+                                                </DataTrigger>
+                                                <DataTrigger Binding="{Binding Settings.DynamicResize.Value, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}"
+                                                             Value="False">
+                                                    <DataTrigger.Setters>
+                                                        <Setter Property="Width"
+                                                                Value="{Binding Settings.MaxWidth.Current, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" />
+                                                    </DataTrigger.Setters>
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </Grid.Style>
+                                </Grid>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <StackPanel Orientation="{Binding Settings.Orientation.Value, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}, Converter={StaticResource OrientationConverter}}"
+                                            Margin="20"
+                                            IsItemsHost="True" />
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                        <ItemsControl.Style>
+                            <Style TargetType="ItemsControl">
+                                <Style.Triggers>
+                                    <!-- Dynamic size -->
+                                    <MultiDataTrigger>
+                                        <MultiDataTrigger.Conditions>
+                                            <Condition Binding="{Binding Settings.DynamicResize.Value, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}"
+                                                       Value="True" />
+                                            <Condition Binding="{Binding Settings.Orientation.Value, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}"
+                                                       Value="{StaticResource OHorizontal}" />
+                                        </MultiDataTrigger.Conditions>
+                                        <MultiDataTrigger.Setters>
+                                            <Setter Property="Width">
+                                                <Setter.Value>
+                                                    <MultiBinding Converter="{StaticResource BindingMultiplierConverter}">
+                                                        <Binding Path="Settings.MinWidth.Current"
+                                                                 RelativeSource="{RelativeSource AncestorType={x:Type UserControl}}" />
+                                                        <Binding Path="DataContext.MonstersCount"
+                                                                 RelativeSource="{RelativeSource AncestorType={x:Type UserControl}}" />
+                                                    </MultiBinding>
+                                                </Setter.Value>
+                                            </Setter>
+                                        </MultiDataTrigger.Setters>
+                                    </MultiDataTrigger>
+                                    <DataTrigger Binding="{Binding Settings.DynamicResize.Value, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}"
+                                                 Value="False">
+                                        <DataTrigger.Setters>
+                                            <Setter Property="Width"
+                                                    Value="NaN" />
+                                        </DataTrigger.Setters>
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding Settings.Orientation.Value, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}"
+                                                 Value="{StaticResource OVertical}">
+                                        <DataTrigger.Setters>
+                                            <Setter Property="Width"
+                                                    Value="NaN" />
+                                        </DataTrigger.Setters>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </ItemsControl.Style>
+                    </ItemsControl>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+</ResourceDictionary>
