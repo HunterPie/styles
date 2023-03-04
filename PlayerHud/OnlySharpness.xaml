@@ -2,24 +2,23 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:playerHud="clr-namespace:HunterPie.UI.Overlay.Widgets.Player.Views;assembly=HunterPie.UI"
                     xmlns:converters="clr-namespace:HunterPie.UI.Architecture.Converters;assembly=HunterPie.UI">
-    
-    <converters:WeaponToMeleeVisibility x:Key="WeaponToMeleeVisibility"/>
-
-    <Style x:Key="STYLE_PLAYER_HUD_WIDGET" TargetType="{x:Type playerHud:PlayerHudView}">
+    <converters:WeaponToMeleeVisibility x:Key="WeaponToMeleeVisibility" />
+    <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+    <Style x:Key="STYLE_PLAYER_HUD_WIDGET"
+           TargetType="{x:Type playerHud:PlayerHudView}">
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate>
-                    <playerHud:WeaponSharpnessView HorizontalAlignment="Left"
-                                                   Height="40"
-                                                   VerticalAlignment="Bottom"
-                                                   Grid.Column="1"
-                                                   Grid.Row="1"
-                                                   Margin="0,25,0,0"
-                                                   Visibility="{Binding ViewModel.Weapon, Mode=OneWay, Converter={StaticResource WeaponToMeleeVisibility}, RelativeSource={RelativeSource AncestorType={x:Type playerHud:PlayerHudView}}}"
-                                                   DataContext="{Binding SharpnessViewModel, Mode=OneTime}"/>
+                    <Grid Visibility="{Binding InHuntingZone, Mode=OneWay, Converter={StaticResource BooleanToVisibilityConverter}}">
+                        <playerHud:WeaponSharpnessView HorizontalAlignment="Left"
+                                                       Height="40"
+                                                       VerticalAlignment="Bottom"
+                                                       Margin="0,25,0,0"
+                                                       Visibility="{Binding ViewModel.Weapon, Mode=OneWay, Converter={StaticResource WeaponToMeleeVisibility}, RelativeSource={RelativeSource AncestorType={x:Type playerHud:PlayerHudView}}}"
+                                                       DataContext="{Binding SharpnessViewModel, Mode=OneTime}" />
+                    </Grid>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
     </Style>
-    
 </ResourceDictionary>
