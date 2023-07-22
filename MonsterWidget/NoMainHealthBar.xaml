@@ -24,7 +24,7 @@
     <converters:FloatFloorConverter x:Key="FloatFloorConverter" />
     <converters:TargetTypeToVisibility x:Key="TargetTypeToVisibility" />
     <converters:IsValidPartConverter x:Key="IsValidPartConverter" />
-    <converters:PercentageToLeftMargingDistanceConverter x:Key="PercentageToLeftMargingDistanceConverter" />
+    <converters:PercentageToLeftMarginDistanceConverter x:Key="PercentageToLeftMarginDistanceConverter" />
     <converters:BindingMultiplierConverter x:Key="BindingMultiplierConverter" />
     <converters:DynamicMonsterBarSizeConverter x:Key="DynamicMonsterBarSizeConverter" />
     <enums:Orientation x:Key="OHorizontal">Horizontal</enums:Orientation>
